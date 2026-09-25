@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">3
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portofolio web developer interaktif milik Arka Pratama.">
+    <title>ARCA / Portofolio Web Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f3f0e9;
+            --surface: #fffdf8;
+            --ink: #171713;
+            --muted: #706f67;
+            --line: rgba(23, 23, 19, .16);
+            --acid: #d7fb57;
+            --coral: #ff725e;
+            --shadow: 10px 10px 0 var(--ink);
+        }
+
+        [data-theme="dark"] {
+            --bg: #10110f;
+            --surface: #191b17;
+            --ink: #f3f0e9;
+            --muted: #a7a99c;
+            --line: rgba(243, 240, 233, .18);
+            --acid: #d7fb57;
+            --coral: #ff806b;
+            --shadow: 10px 10px 0 #050605;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--bg);
+            font-family: 'DM Mono', monospace;
+            transition: color .35s ease, background .35s ease;
+        }
+        body::before {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            content: '';
+            opacity: .16;
+            background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+            background-size: 64px 64px;
+            mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+        }
+        a { color: inherit; text-decoration: none; }
+        button { color: inherit; font: inherit; cursor: pointer; }
+        .page { width: min(1180px, calc(100% - 48px)); margin: auto; }
+        .nav { display: flex; align-items: center; justify-content: space-between; padding: 28px 0; border-bottom: 1px solid var(--line); }
+        .brand { font-family: Syne, sans-serif; font-size: 1.35rem; font-weight: 800; letter-spacing: -.08em; }
+        .brand span { color: var(--coral); }
+        .nav-links { display: flex; align-items: center; gap: 28px; color: var(--muted); font-size: .72rem; text-transform: uppercase; }
+        .nav-links a:hover { color: var(--ink); }
+        .theme-switch { display: flex; align-items: center; gap: 9px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: transparent; font-size: .68rem; text-transform: uppercase; }
+        .theme-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--acid); box-shadow: 0 0 0 3px rgba(215,251,87,.2); }
+        .hero { display: grid; grid-template-columns: 1.04fr .96fr; align-items: center; gap: 8%; min-height: 670px; padding: 74px 0 100px; }
+        .eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; color: var(--coral); font-size: .72rem; text-transform: uppercase; }
+        .eyebrow::before { width: 34px; height: 1px; content: ''; background: currentColor; }
+        h1, h2, h3 { margin: 0; font-family: Syne, sans-serif; letter-spacing: -.075em; }
+        h1 { max-width: 650px; font-size: clamp(3.8rem, 8vw, 7.7rem); line-height: .86; }
+        h1 em { color: var(--coral); font-style: normal; }
+        .hero-copy { max-width: 470px; margin: 30px 0 34px; color: var(--muted); font-size: .84rem; line-height: 1.8; }
+        .actions { display: flex; flex-wrap: wrap; gap: 14px; }
+        .button { display: inline-flex; align-items: center; gap: 11px; padding: 14px 18px; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); font-size: .72rem; text-transform: uppercase; transition: transform .2s ease, box-shadow .2s ease; }
+        .button:hover { transform: translate(-3px, -3px); box-shadow: 5px 5px 0 var(--coral); }
+        .button.outline { background: transparent; color: var(--ink); }
+        .arrow { font-size: 1rem; }
+        .scene { position: relative; min-height: 440px; perspective: 900px; }
+        .scene-label { position: absolute; top: 5%; right: 2%; z-index: 2; color: var(--muted); font-size: .6rem; line-height: 1.7; text-align: right; text-transform: uppercase; }
+        .orb { position: absolute; top: 12%; left: 20%; width: 250px; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 28% 22%, #fcfff0 0 4%, var(--acid) 5% 27%, #9ebd31 63%, #435214 100%); box-shadow: inset -30px -35px 50px rgba(0,0,0,.32), 25px 30px 0 rgba(23,23,19,.16); animation: float 5s ease-in-out infinite; }
+        .orb::after { position: absolute; inset: 9%; border: 1px solid rgba(255,255,255,.35); border-radius: 50%; content: ''; }
+        .ring { position: absolute; top: 24%; left: 10%; width: 340px; height: 125px; border: 2px solid var(--coral); border-radius: 50%; transform: rotate(-29deg); animation: spin 13s linear infinite; }
+        .ring::after { position: absolute; inset: 12px -7px; border: 1px solid var(--coral); border-radius: 50%; content: ''; opacity: .45; }
+        .cube { position: absolute; right: 5%; bottom: 9%; width: 145px; height: 145px; background: linear-gradient(135deg, var(--coral), #a22d36); transform: rotate(19deg) skewY(-12deg); box-shadow: 18px 20px 0 var(--ink); animation: cubeFloat 6s ease-in-out infinite reverse; }
+        .cube::before, .cube::after { position: absolute; content: ''; }
+        .cube::before { top: -30px; left: 0; width: 100%; height: 30px; background: #ffad7b; transform: skewX(-40deg); transform-origin: bottom left; }
+        .cube::after { top: -30px; right: -30px; width: 30px; height: 145px; background: #741e31; transform: skewY(-50deg); transform-origin: top left; }
+        .stamp { position: absolute; bottom: 1%; left: 1%; display: grid; width: 82px; height: 82px; place-content: center; border: 1px solid var(--ink); border-radius: 50%; color: var(--coral); font-size: .6rem; line-height: 1.4; text-align: center; transform: rotate(-15deg); }
+        .marquee { overflow: hidden; margin: 0 calc(50% - 50vw); padding: 16px 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); background: var(--acid); color: #171713; white-space: nowrap; }
+        .marquee-track { display: inline-block; animation: marquee 24s linear infinite; }
+        .marquee b { margin: 0 34px; font-family: Syne, sans-serif; font-size: 1.15rem; letter-spacing: -.05em; }
+        .section { padding: 118px 0; }
+        .section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 42px; }
+        h2 { font-size: clamp(2.5rem, 5vw, 5rem); line-height: .9; }
+        .section-note { max-width: 260px; color: var(--muted); font-size: .72rem; line-height: 1.7; }
+        .filters { display: flex; gap: 8px; margin-bottom: 22px; }
+        .filter { padding: 9px 13px; border: 1px solid var(--line); background: transparent; color: var(--muted); font-size: .65rem; text-transform: uppercase; }
+        .filter.active, .filter:hover { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+        .projects { display: grid; grid-template-columns: repeat(12, 1fr); gap: 22px; }
+        .project { position: relative; min-height: 330px; padding: 22px; overflow: hidden; border: 1px solid var(--line); background: var(--surface); transition: transform .35s ease, opacity .3s ease; }
+        .project:hover { transform: translateY(-8px); }
+        .project:nth-child(1) { grid-column: span 7; }
+        .project:nth-child(2) { grid-column: span 5; }
+        .project:nth-child(3) { grid-column: span 5; }
+        .project:nth-child(4) { grid-column: span 7; }
+        .project.hidden { display: none; }
+        .project-visual { position: absolute; inset: 0; overflow: hidden; }
+        .visual-one { background: #22261e; }
+        .visual-one::before { position: absolute; top: 18%; left: 25%; width: 230px; height: 230px; border: 30px solid var(--acid); border-radius: 50%; content: ''; box-shadow: 0 0 0 26px rgba(215,251,87,.13); }
+        .visual-two { background: #ffdbd2; }
+        .visual-two::before { position: absolute; top: 15%; left: 25%; width: 160px; height: 160px; border-radius: 50%; background: var(--coral); content: ''; box-shadow: 90px 80px 0 #faad9d, -85px 100px 0 #ffa26f; }
+        .visual-three { background: #25232e; }
+        .visual-three::before { position: absolute; top: 25%; left: 30%; width: 210px; height: 100px; border: 1px solid var(--acid); border-radius: 50%; content: ''; transform: rotate(32deg); box-shadow: 0 0 0 25px rgba(215,251,87,.1), 0 0 0 50px rgba(215,251,87,.08); }
+        .visual-four { background: #dce5e9; }
+        .visual-four::before { position: absolute; top: 20%; left: 31%; width: 150px; height: 190px; background: #fa765e; content: ''; transform: skew(-14deg); box-shadow: 35px 25px 0 #f7a38b; }
+        .project-info { position: absolute; right: 20px; bottom: 18px; left: 20px; display: flex; justify-content: space-between; align-items: end; color: white; }
+        .project-info h3 { font-size: 1.55rem; letter-spacing: -.06em; }
+        .project-info p { margin: 7px 0 0; color: rgba(255,255,255,.72); font-size: .65rem; }
+        .project-index { color: rgba(255,255,255,.72); font-size: .68rem; }
+        .about { display: grid; grid-template-columns: .8fr 1.2fr; gap: 12%; border-top: 1px solid var(--line); }
+        .profile-placeholder { position: relative; display: grid; min-height: 370px; place-items: center; border: 1px dashed var(--coral); background: repeating-linear-gradient(135deg, transparent 0 12px, rgba(255,114,94,.08) 12px 13px); }
+        .profile-placeholder::before { width: 150px; height: 150px; border: 1px solid var(--coral); border-radius: 50%; content: ''; }
+        .profile-placeholder span { position: absolute; bottom: 24px; max-width: 220px; color: var(--coral); font-size: .68rem; line-height: 1.6; text-align: center; text-transform: uppercase; }
+        .about-copy h2 { margin-bottom: 25px; }
+        .about-copy > p { max-width: 510px; color: var(--muted); font-size: .84rem; line-height: 1.9; }
+        .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 45px; padding-top: 22px; border-top: 1px solid var(--line); }
+        .fact strong { display: block; font-family: Syne, sans-serif; font-size: 2.1rem; }
+        .fact span { color: var(--muted); font-size: .65rem; text-transform: uppercase; }
+        footer { display: flex; justify-content: space-between; gap: 20px; padding: 28px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .65rem; }
+        @keyframes float { 50% { transform: translateY(-18px) rotate(7deg); } }
+        @keyframes cubeFloat { 50% { transform: translateY(-18px) rotate(28deg) skewY(-12deg); } }
+        @keyframes spin { to { transform: rotate(331deg); } }
+        @keyframes marquee { to { transform: translateX(-50%); } }
+        @media (max-width: 760px) {
+            .page { width: min(100% - 32px, 560px); }
+            .nav { padding: 20px 0; }
+            .nav-links a { display: none; }
+            .hero { display: block; min-height: auto; padding: 68px 0 70px; }
+            h1 { font-size: clamp(3.55rem, 17vw, 6rem); }
+            .scene { min-height: 380px; margin-top: 52px; transform: scale(.87); transform-origin: top left; width: 100%; }
+            .section { padding: 78px 0; }
+            .section-head, .about { display: block; }
+            .section-note { margin-top: 20px; }
+            .projects { display: block; }
+            .project { min-height: 310px; margin-bottom: 18px; }
+            .profile-placeholder { min-height: 290px; margin-bottom: 58px; }
+            .facts { gap: 10px; }
+            .fact strong { font-size: 1.7rem; }
+            footer { display: block; line-height: 2; }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <nav class="nav">
+            <a class="brand" href="#top">AR<span>/</span>CA</a>
+            <div class="nav-links">
+                <a href="#work">Karya</a>
+                <a href="#about">Tentang</a>
+                <button class="theme-switch" id="themeToggle" type="button"><span class="theme-dot"></span><span id="themeLabel">Mode gelap</span></button>
+            </div>
+        </nav>
+
+        <section class="hero" id="top">
+            <div>
+                <div class="eyebrow">web developer / digital builder</div>
+                <h1>Ide digital, <em>dibuat berjalan.</em></h1>
+                <p class="hero-copy">Saya membangun website dan aplikasi web yang cepat, responsif, dan punya karakter visual yang kuat.</p>
+                <div class="actions">
+                    <a class="button" href="#work">Lihat karya <span class="arrow">-></span></a>
+                    <a class="button outline" href="mailto:halo@arca.studio">Ajak kolaborasi</a>
+                </div>
+            </div>
+            <div class="scene" aria-label="Komposisi 3D dekoratif">
+                <div class="scene-label">Selected build<br>01 / 04</div>
+                <div class="orb"></div><div class="ring"></div><div class="cube"></div>
+                <div class="stamp">MOVE<br>BEYOND<br>FLAT</div>
+            </div>
+        </section>
+
+        <div class="marquee"><div class="marquee-track"><b>FRONTEND</b> / <b>BACKEND</b> / <b>UI ENGINEERING</b> / <b>WEB PERFORMANCE</b> / <b>FRONTEND</b> / <b>BACKEND</b> / <b>UI ENGINEERING</b> / <b>WEB PERFORMANCE</b> / </div></div>
+
+        <section class="section" id="work">
+            <div class="section-head"><h2>Proyek<br>terpilih.</h2><p class="section-note">Beberapa produk digital yang saya rancang, bangun, dan optimalkan dari awal hingga siap dipakai.</p></div>
+            <div class="filters" aria-label="Filter karya">
+                <button class="filter active" data-filter="all" type="button">Semua</button>
+                <button class="filter" data-filter="frontend" type="button">Frontend</button>
+                <button class="filter" data-filter="fullstack" type="button">Full-stack</button>
+            </div>
+            <div class="projects">
+                <article class="project" data-category="frontend"><div class="project-visual visual-one"></div><div class="project-info"><div><h3>Northstar</h3><p>Dashboard SaaS / 2025</p></div><span class="project-index">01</span></div></article>
+                <article class="project" data-category="fullstack"><div class="project-visual visual-two"></div><div class="project-info"><div><h3>Afterglow</h3><p>Booking platform / 2024</p></div><span class="project-index">02</span></div></article>
+                <article class="project" data-category="fullstack"><div class="project-visual visual-three"></div><div class="project-info"><div><h3>Orbitals</h3><p>Data visualization / 2024</p></div><span class="project-index">03</span></div></article>
+                <article class="project" data-category="frontend"><div class="project-visual visual-four"></div><div class="project-info"><div><h3>Fold / Unfold</h3><p>Creative landing page / 2023</p></div><span class="project-index">04</span></div></article>
+            </div>
+        </section>
+
+        <section class="section about" id="about">
+            <div class="profile-placeholder" aria-label="Tempat foto profil"><span>Tempat foto profil kamu<br>Ganti area ini dengan tag &lt;img&gt;</span></div>
+            <div class="about-copy"><div class="eyebrow">Tentang saya</div><h2>Kode yang<br>punya arah.</h2><p>Halo, saya Arka. Saya web developer yang senang mengubah masalah kompleks menjadi pengalaman digital yang terasa sederhana, cepat, dan menyenangkan digunakan.</p><div class="facts"><div class="fact"><strong>06</strong><span>Tahun berkarya</span></div><div class="fact"><strong>42</strong><span>Proyek selesai</span></div><div class="fact"><strong>12</strong><span>Klien global</span></div></div></div>
+        </section>
+
+        <footer><span>ARCA / PORTOFOLIO 2025</span><span>Jakarta, Indonesia / Available for selected projects</span></footer>
+    </main>
+    <script>
+        const root = document.documentElement;
+        const themeToggle = document.querySelector('#themeToggle');
+        const themeLabel = document.querySelector('#themeLabel');
+        const savedTheme = localStorage.getItem('arca-theme') || 'dark';
+        root.dataset.theme = savedTheme;
+        themeLabel.textContent = savedTheme === 'dark' ? 'Mode terang' : 'Mode gelap';
+        themeToggle.addEventListener('click', () => {
+            const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+            root.dataset.theme = nextTheme;
+            localStorage.setItem('arca-theme', nextTheme);
+            themeLabel.textContent = nextTheme === 'dark' ? 'Mode terang' : 'Mode gelap';
+        });
+
+        document.querySelectorAll('.filter').forEach((filterButton) => {
+            filterButton.addEventListener('click', () => {
+                document.querySelectorAll('.filter').forEach((button) => button.classList.remove('active'));
+                filterButton.classList.add('active');
+                const selected = filterButton.dataset.filter;
+                document.querySelectorAll('.project').forEach((project) => {
+                    project.classList.toggle('hidden', selected !== 'all' && project.dataset.category !== selected);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
